@@ -133,12 +133,6 @@ impl FallingPiece {
         self.rotate(target, board)
     }
 
-    pub fn flip<R: Row>(&mut self, board: &Board<R>) -> bool {
-        let mut target = self.kind;
-        target.flip();
-        self.rotate(target, board)
-    }
-
     pub fn same_location(&self, other: &Self) -> bool {
         if self.kind.0 != other.kind.0 {
             return false;
@@ -268,16 +262,6 @@ impl RotationState {
         }
     }
 
-    pub fn flip(&mut self) {
-        use RotationState::*;
-        match self {
-            North => *self = South,
-            West => *self = East,
-            South => *self = North,
-            East => *self = West,
-        }
-    }
-
     pub fn mini_tspin_corners(self) -> [(i32, i32); 2] {
         use RotationState::*;
         match self {
@@ -306,10 +290,6 @@ impl PieceState {
 
     pub fn ccw(&mut self) {
         self.1.ccw()
-    }
-
-    pub fn flip(&mut self) {
-        self.1.flip();
     }
 
     /// Returns the cells this piece and orientation occupy relative to rotation point 1, as well
@@ -478,7 +458,6 @@ pub enum PieceMovement {
     Right,
     Cw,
     Ccw,
-    Flip,
     SonicDrop,
 }
 
@@ -489,7 +468,6 @@ impl PieceMovement {
             PieceMovement::Right => piece.shift(board, 1, 0),
             PieceMovement::Ccw => piece.ccw(board),
             PieceMovement::Cw => piece.cw(board),
-            PieceMovement::Flip => piece.flip(board),
             PieceMovement::SonicDrop => piece.sonic_drop(board),
         }
     }
