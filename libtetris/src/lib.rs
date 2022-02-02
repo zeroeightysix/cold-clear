@@ -20,7 +20,6 @@ pub struct Controller {
     pub right: bool,
     pub rotate_right: bool,
     pub rotate_left: bool,
-    pub rotate_180: bool,
     pub soft_drop: bool,
     pub hard_drop: bool,
     pub hold: bool,
@@ -57,7 +56,6 @@ impl<'de> serde::Deserialize<'de> for Controller {
                     hold: (v >> 5) & 1 != 0,
                     soft_drop: (v >> 6) & 1 != 0,
                     hard_drop: (v >> 7) & 1 != 0,
-                    rotate_180: (v >> 8) & 1 != 0,
                 })
             }
         }
